@@ -179,14 +179,7 @@ body {
     background: #2952cc;
     color: white;
 }
-.tab-btn-excel {
-    background: #e6f4ea;
-    color: #137333;
-}
-.tab-btn-excel.active, .tab-btn-excel:hover {
-    background: #137333;
-    color: white;
-}
+
 .iframe-wrapper {
     position: relative;
     width: 100%;
@@ -194,12 +187,26 @@ body {
     border: 1px solid #eee;
     border-radius: 8px;
     overflow: hidden;
+    background: #f8f9fa;
 }
 .iframe-wrapper iframe {
     width: 100%;
     height: 100%;
     border: none;
 }
+.iframe-fallback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #666;
+    display: none;
+    padding: 20px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 8px;
+}
+
 /* ================= RESPONSIVE ================= */
 @media(max-width: 768px) {
     .sidebar { width: 100%; height: auto; position: relative; }
@@ -233,27 +240,21 @@ body {
         </div>
     </div>
     <div class="content">
-
         <!-- RINGKASAN KAS -->
         <h2 class="section-title"><i class="fas fa-wallet"></i> Ringkasan Keuangan Kas Kelompok</h2>
         <div class="grid-container">
-            <!-- Card Total Kas Masuk -->
             <div class="data-card">
                 <h3><i class="fas fa-arrow-circle-down"></i> Total Kas Masuk</h3>
                 <p style="margin-bottom: 15px; font-size: 14px; color: #666;">Saldo pemasukan dari iuran, penjualan, dll.</p>
                 <div id="total-masuk" class="total-kas kas-masuk">Rp 0</div>
                 <div id="loading-masuk" class="loading">Memuat data...</div>
             </div>
-
-            <!-- Card Total Kas Keluar -->
             <div class="data-card">
                 <h3><i class="fas fa-arrow-circle-up"></i> Total Kas Keluar</h3>
                 <p style="margin-bottom: 15px; font-size: 14px; color: #666;">Pengeluaran operasional kelompok</p>
                 <div id="total-keluar" class="total-kas kas-keluar">Rp 0</div>
                 <div id="loading-keluar" class="loading">Memuat data...</div>
             </div>
-
-            <!-- Card Saldo Bersih -->
             <div class="data-card">
                 <h3><i class="fas fa-wallet"></i> Saldo Kas Bersih</h3>
                 <p style="margin-bottom: 15px; font-size: 14px; color: #666;">Total Kas Masuk - Total Kas Keluar</p>
@@ -264,7 +265,6 @@ body {
 
         <h2 class="section-title"><i class="fas fa-link"></i> Integrasi Data & Formulir</h2>
         <div class="grid-container">
-            <!-- Form Pendaftaran -->
             <div class="data-card">
                 <h3><i class="fas fa-user-plus"></i> Formulir Pendaftaran</h3>
                 <p style="margin-bottom: 15px; font-size: 14px; color: #666;">Form pengisian data formulir pendaftaran oleh pengurus dan anggota.</p>
@@ -272,8 +272,6 @@ body {
                     <a href="https://forms.gle/cwnCwSoeQowd43HB9" target="_blank" class="btn"><i class="fab fa-google"></i> Buka Google Form</a>
                 </div>
             </div>
-
-            <!-- Spreadsheet Pendaftaran -->
             <div class="data-card">
                 <h3><i class="fas fa-table"></i> Spreadsheet Pendaftaran</h3>
                 <p style="margin-bottom: 15px; font-size: 14px; color: #666;">Melihat seluruh data kas kelompok yang telah masuk dari Google Form.</p>
@@ -281,8 +279,6 @@ body {
                     <a href="https://docs.google.com/spreadsheets/d/1IEvU-u6quLwaXasoR1AhHjD3TS9QLk_oWcdE5TeoYq4/edit?usp=sharing" target="_blank" class="btn btn-excel"><i class="fas fa-table"></i> Lihat Data</a>
                 </div>
             </div>
-
-            <!-- Form Kepuasan -->
             <div class="data-card">
                 <h3><i class="fas fa-smile"></i> Tingkat Kepuasan</h3>
                 <p style="margin-bottom: 15px; font-size: 14px; color: #666;">Kuesioner tingkat kepuasan anggota terhadap layanan administrasi kelompok.</p>
@@ -290,8 +286,6 @@ body {
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSelbcKS1tVFKcIImhoJAkZMp_sueU_3xVCQ6wx8DO2T7YmUsA/viewform?usp=header" target="_blank" class="btn"><i class="fab fa-google"></i> Isi Kuesioner</a>
                 </div>
             </div>
-
-            <!-- Spreadsheet Kepuasan -->
             <div class="data-card">
                 <h3><i class="fas fa-table"></i> Spreadsheet Kepuasan</h3>
                 <p style="margin-bottom: 15px; font-size: 14px; color: #666;">Hasil rekapitulasi jawaban kuesioner tingkat kepuasan anggota.</p>
@@ -299,8 +293,6 @@ body {
                     <a href="https://docs.google.com/spreadsheets/d/1yQ1_s0AB8jwvK3aCQqExX15rgqhPrR68hmY-unSdl_o/edit?usp=sharing" target="_blank" class="btn btn-excel"><i class="fas fa-table"></i> Lihat Rekap</a>
                 </div>
             </div>
-
-            <!-- Analisis Excel -->
             <div class="data-card">
                 <h3><i class="fas fa-file-excel"></i> Hasil Analisis Excel</h3>
                 <p style="margin-bottom: 15px; font-size: 14px; color: #666;">File hasil analisis tingkat kepuasan anggota bagian kas kelompok.</p>
@@ -310,7 +302,7 @@ body {
             </div>
         </div>
 
-        <!-- VISUALISASI DASHBOARD -->
+        <!-- VISUALISASI DASHBOARD (SUDAH DIPERBAIKI) -->
         <h2 class="section-title"><i class="fas fa-chart-bar"></i> Visualisasi Dashboard Interaktif</h2>
         <div class="dashboard-container">
             <div class="tab-menu">
@@ -322,21 +314,40 @@ body {
                 </button>
             </div>
 
-            <!-- Tab Content: Dashboard Pendaftaran -->
+            <!-- Dashboard Pendaftaran -->
             <div id="dashboard-pendaftaran" class="tab-content">
                 <div class="iframe-wrapper">
-                    <iframe src="https://datastudio.google.com/reporting/c762b7b9-7275-4f4a-88a6-c18c3ffb777a/page/page_12345" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                    <iframe 
+                        src="https://lookerstudio.google.com/embed/reporting/c762b7b9-7275-4f4a-88a6-c18c3ffb777a/page/page_12345?embed=true"
+                        frameborder="0" 
+                        style="border:0" 
+                        allowfullscreen 
+                        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms">
+                    </iframe>
+                    <div class="iframe-fallback">
+                        <p>📊 Dashboard tidak muncul?<br>
+                        Pastikan report di-share dengan "Anyone with the link can view"</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Tab Content: Dashboard Kepuasan -->
+            <!-- Dashboard Kepuasan -->
             <div id="dashboard-kepuasan" class="tab-content" style="display: none;">
                 <div class="iframe-wrapper">
-                    <iframe src="https://datastudio.google.com/embed/reporting/3deac225-1899-4f0c-8032-82af684796a6/page/page_12345" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                    <iframe 
+                        src="https://lookerstudio.google.com/embed/reporting/3deac225-1899-4f0c-8032-82af684796a6/page/page_12345?embed=true"
+                        frameborder="0" 
+                        style="border:0" 
+                        allowfullscreen 
+                        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms">
+                    </iframe>
+                    <div class="iframe-fallback">
+                        <p>📊 Dashboard tidak muncul?<br>
+                        Pastikan report di-share dengan "Anyone with the link can view"</p>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -351,51 +362,43 @@ function formatRupiah(angka) {
 async function loadKasData() {
     const spreadsheetId = '1IEvU-u6quLwaXasoR1AhHjD3TS9QLk_oWcdE5TeoYq4';
     const csvUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv`;
-    
+   
     try {
         const response = await fetch(csvUrl);
         if (!response.ok) throw new Error('Gagal mengambil data');
-       
+      
         const csvText = await response.text();
         const rows = csvText.trim().split('\n').map(row => {
             return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
         });
-
         const header = rows[0].map(h => h.trim().replace(/"/g, ''));
         const jenisIndex = header.indexOf('Jenis Transaksi');
         const nominalIndex = header.indexOf('Nominal (Rp)');
-
         if (jenisIndex === -1 || nominalIndex === -1) {
             console.error('Kolom tidak ditemukan');
             return;
         }
-
         let totalMasuk = 0;
         let totalKeluar = 0;
-
         for (let i = 1; i < rows.length; i++) {
             const row = rows[i];
             if (row.length <= Math.max(jenisIndex, nominalIndex)) continue;
-            
+           
             const jenis = row[jenisIndex].trim().replace(/"/g, '');
             let nominalStr = row[nominalIndex].trim().replace(/"/g, '').replace(/\./g, '').replace(/,/g, '');
             const nominal = parseInt(nominalStr) || 0;
-
             if (jenis.toLowerCase().includes('masuk')) {
                 totalMasuk += nominal;
             } else if (jenis.toLowerCase().includes('keluar')) {
                 totalKeluar += nominal;
             }
         }
-
         const saldoBersih = totalMasuk - totalKeluar;
-
-        // Update DOM
+        
         document.getElementById('total-masuk').textContent = formatRupiah(totalMasuk);
         document.getElementById('total-keluar').textContent = formatRupiah(totalKeluar);
         document.getElementById('saldo-bersih').textContent = formatRupiah(saldoBersih);
-
-        // Sembunyikan loading
+        
         document.getElementById('loading-masuk').style.display = 'none';
         document.getElementById('loading-keluar').style.display = 'none';
         document.getElementById('loading-saldo').style.display = 'none';
@@ -411,10 +414,10 @@ async function loadKasData() {
 function switchDashboard(evt, dashboardId) {
     const tabContents = document.querySelectorAll(".tab-content");
     tabContents.forEach(content => content.style.display = "none");
-
+    
     const tabBtns = document.querySelectorAll(".tab-btn");
     tabBtns.forEach(btn => btn.classList.remove("active"));
-
+    
     document.getElementById(dashboardId).style.display = "block";
     evt.currentTarget.classList.add("active");
 }
