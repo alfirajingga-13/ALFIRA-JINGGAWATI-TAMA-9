@@ -122,8 +122,6 @@
         }
         .btn-excel { background: #e6f4ea; color: #137333; border-color: #ceead6; }
         .btn-excel:hover { background: #137333; color: white; }
-        .btn-looker { background: #fef7e0; color: #b06000; border-color: #feefc3; }
-        .btn-looker:hover { background: #b06000; color: white; }
         
         /* Total Kas Styling */
         .total-kas {
@@ -217,7 +215,7 @@
     <div class="menu">
         <ul>
             <li>
-                <a href="javascript:void(0);" onclick="goBackHandler();">
+                <a href="javascript:void(0);" onclick="pergiKeBeranda();">
                     <i class="fas fa-arrow-left"></i> Kembali ke Beranda
                 </a>
             </li>
@@ -252,7 +250,7 @@
             <div class="data-card">
                 <h3><i class="fas fa-wallet"></i> Saldo Kas Bersih</h3>
                 <p style="margin-bottom: 15px; font-size: 14px; color: #666;">Total Kas Masuk - Total Kas Keluar</p>
-                <div id="saldo-bersih" class="total-kas">Rp 0</div>
+                <div id="saldo-grid" style="font-size: 28px; font-weight: bold; margin: 10px 0;">Rp 0</div>
                 <div id="loading-saldo" class="loading">Memuat data...</div>
             </div>
         </div>
@@ -341,21 +339,27 @@
 </div>
 
 <script>
-// 1. Fungsi Navigasi Kembali Universal (Bisa ke beranda mana pun tanpa dikunci)
-function goBackHandler() {
-    if (document.referrer && window.history.length > 1) {
+// Fungsi Tombol Kembali Multi-Kondisi (Pasti Berhasil)
+function pergiKeBeranda() {
+    // 1. Cek jika halaman ini dibuka lewat klik link dari website/halaman lain
+    if (document.referrer && document.referrer !== "") {
+        window.location.href = document.referrer;
+    } 
+    // 2. Cek jika tab memiliki riwayat navigasi aktif sebelumnya
+    else if (window.history.length > 1) {
         window.history.back();
-    } else {
-        window.location.href = './'; 
+    } 
+    // 3. JIKA DUA CARA DI ATAS GAGAL (karena file dibuka offline/langsung klik file-nya), 
+    // Maka paksa arahkan browser mencari file index.html di direktori lokal yang sama.
+    else {
+        window.location.href = "index.html";
     }
 }
 
-// 2. Fungsi memformat data nominal angka ke IDR Rupiah
 function formatRupiah(angka) {
     return 'Rp ' + angka.toLocaleString('id-ID');
 }
 
-// 3. Fungsi utama penarik dan kalkulator data kas otomatis
 async function loadKasData() {
     const spreadsheetId = '1IEvU-u6quLwaXasoR1AhHjD3TS9QLk_oWcdE5TeoYq4';
     const csvUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv`;
@@ -394,7 +398,7 @@ async function loadKasData() {
       
         document.getElementById('total-masuk').textContent = formatRupiah(totalMasuk);
         document.getElementById('total-keluar').textContent = formatRupiah(totalKeluar);
-        document.getElementById('saldo-bersih').textContent = formatRupiah(saldoBersih);
+        document.getElementById('saldo-grid').textContent = formatRupiah(saldoBersih);
       
         document.getElementById('loading-masuk').style.display = 'none';
         document.getElementById('loading-keluar').style.display = 'none';
@@ -403,11 +407,10 @@ async function loadKasData() {
         console.error('Error:', error);
         document.getElementById('total-masuk').innerHTML = 'Gagal memuat<span style="font-size:14px;display:block;color:#dc3545;">Cek sharing sheet</span>';
         document.getElementById('total-keluar').innerHTML = 'Gagal memuat<span style="font-size:14px;display:block;color:#dc3545;">Cek sharing sheet</span>';
-        document.getElementById('saldo-bersih').innerHTML = 'Gagal memuat';
+        document.getElementById('saldo-grid').innerHTML = 'Gagal memuat';
     }
 }
 
-// 4. Tab Switcher Controller untuk Dashboard Looker Studio
 function switchDashboard(evt, dashboardId) {
     const tabContents = document.querySelectorAll(".tab-content");
     tabContents.forEach(content => content.style.display = "none");
@@ -419,7 +422,6 @@ function switchDashboard(evt, dashboardId) {
     evt.currentTarget.classList.add("active");
 }
 
-// Trigger inisialisasi fungsi saat window siap
 window.onload = function() {
     loadKasData();
 };
